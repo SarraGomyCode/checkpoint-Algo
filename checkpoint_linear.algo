@@ -29,22 +29,34 @@ END
 ALGORITHM checkpoint_linear
 VAR
     htab : HASH_TABLE<INTEGER,INTEGER>;
-    set : ARRAY_OF INTEGER[9];
+    set 1 : ARRAY_OF INTEGER[4];
+    set 2 : ARRAY_OF INTEGER[5];
     i, count : INTEGER;
     sum:=0
 BEGIN
-    FOR i FROM 0 TO set.length -1 STEP 1  DO
-        IF (htab.lookup(set[i]) = TRUE) THEN
-        count := htab.get(set[i]);
-        htab.insert(set[i],count+1);
+    FOR i FROM 0 TO set1.length -1 STEP 1  DO
+        IF (htab.lookup(set1[i]) = TRUE) THEN
+        count := htab.get(set1[i]);
+        htab.insert(set1[i],count+1);
     ELSE
-        htab.insert(set[i],1);
+        htab.insert(set1[i],1);
     END_IF
     END_FOR
+
+    FOR i FROM 0 TO set2.length -1 STEP 1  DO
+        IF (htab.lookup(set2[i]) = TRUE) THEN
+        count := htab.get(set2[i]);
+        htab.insert(set2[i],count+1);
+    ELSE
+        htab.insert(set2[i],1);
+    END_IF
+    END_FOR
+
+
     // function sum 
-    FOR i FROM 0 TO set.length -1 STEP 1  DO
-        IF (htab.get(set[i])<>htab.get(set[i-1])) THEN
-            sum := sum + htab.get(set[i])
+    FOR i FROM 0 TO 9 STEP 1  DO
+        IF (htab.get(set1[i])<>htab.get(set2[i])) THEN
+            sum := sum + htab.get(set1[i])
         BREAK ;
         END_IF
     END_FOR
@@ -53,3 +65,39 @@ END
 
 
 //  problem 2
+ALGORITHM checkpoint_linear
+VAR
+    htab : HASH_TABLE<INTEGER,INTEGER>;
+    set 1 : ARRAY_OF INTEGER[4];
+    set 2 : ARRAY_OF INTEGER[4];
+    i,j, count : INTEGER;
+    sum :=0
+    
+BEGIN
+    FOR i FROM 0 TO set1.length -1 STEP 1  DO
+        IF (htab.lookup(set1[i]) = TRUE) THEN
+        count := htab.get(set1[i]);
+        htab.insert(set1[i],count+1);
+    ELSE
+        htab.insert(set1[i],1);
+    END_IF
+    END_FOR
+
+    FOR j FROM 0 TO set2.length -1 STEP 1  DO
+        IF (htab.lookup(set2[j]) = TRUE) THEN
+        count := htab.get(set2[j]);
+        htab.insert(set2[j],count+1);
+    ELSE
+        htab.insert(set2[j],1);
+    END_IF
+    END_FOR
+
+// fonction Sum of overlapping elements
+FOR i FROM 0 TO 8 STEP 1  DO
+        IF (htab.get(set1[i])=htab.get(set2[j])) THEN
+            sum := sum + (htab.get(set1[i])*2)
+        BREAK ;
+        END_IF
+    END_FOR
+    write(sum);
+END
