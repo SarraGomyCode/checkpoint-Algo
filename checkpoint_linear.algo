@@ -1,0 +1,55 @@
+// problem 1 : solution 1 
+ALGORITHM checkpoint_linear
+VAR
+    set 1 : ARRAY_OF INTEGER[4];
+    set 2 : ARRAY_OF INTEGER[5];
+    i,j, sum, sum 1,sum 2 : INTEGER;
+    sum:=0
+BEGIN
+    FOR i FROM 0 TO 4 STEP 1  DO
+            IF (set 1 [i] <> set 2 [i]) THEN
+                sum 1 := sum + set 1 [i]
+            ELSE
+                i:=i+1 
+            END_IF
+        END_IF
+    END_FOR
+    FOR j FROM 0 TO 5 STEP 1  DO
+    IF (set 1 [j] <> set 2 [j]) THEN
+                sum 2 := sum + set 2 [j]
+            ELSE
+                j:=j+1 
+            END_IF
+        END_IF
+    END_FOR
+
+    sum := sum 1 + sum 2 
+END
+// problem 1 : solution 2 
+ALGORITHM checkpoint_linear
+VAR
+    htab : HASH_TABLE<INTEGER,INTEGER>;
+    set : ARRAY_OF INTEGER[9];
+    i, count : INTEGER;
+    sum:=0
+BEGIN
+    FOR i FROM 0 TO set.length -1 STEP 1  DO
+        IF (htab.lookup(set[i]) = TRUE) THEN
+        count := htab.get(set[i]);
+        htab.insert(set[i],count+1);
+    ELSE
+        htab.insert(set[i],1);
+    END_IF
+    END_FOR
+    // function sum 
+    FOR i FROM 0 TO set.length -1 STEP 1  DO
+        IF (htab.get(set[i])<>htab.get(set[i-1])) THEN
+            sum := sum + htab.get(set[i])
+        BREAK ;
+        END_IF
+    END_FOR
+    write(sum);
+END
+
+
+//  problem 2
